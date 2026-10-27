@@ -9,7 +9,7 @@ Move legality (including check/checkmate/stalemate detection) is handled by
 
 Grab the latest APK from the [Releases page](https://github.com/sauvikdasmodak/chess-game/releases/latest)
 and sideload it onto an Android device (enable "install from unknown sources" if prompted).
-It's a debug-signed build intended for testing/personal use, not a Play Store release.
+It's a release build (JS bundle embedded, no Metro needed) signed with the debug key, intended for testing/personal use, not a Play Store release.
 
 ## Features
 
@@ -30,10 +30,14 @@ npm run android   # or: npm start, then press 'a'
 ```bash
 npx expo prebuild --platform android
 cd android
-./gradlew assembleDebug
+./gradlew assembleRelease
 ```
 
-The APK is produced at `android/app/build/outputs/apk/debug/app-debug.apk`.
+The APK is produced at `android/app/build/outputs/apk/release/app-release.apk`.
+
+Use a **release** build for APKs you install on a device. A debug build (`assembleDebug`) does not
+contain the JS bundle and fails with "Unable to load script ... index.android.bundle" unless Metro
+is running and reachable (`npm start`, plus `adb reverse tcp:8081 tcp:8081` over USB).
 
 ## Tech stack
 
